@@ -29,7 +29,8 @@
 (set argv ((NSProcessInfo processInfo) arguments))
 (set argi 0)
 
-((((NSProcessInfo processInfo) processIdentifier) stringValue) writeToFile:"stickupd.pid" atomically:NO)
+((((NSProcessInfo processInfo) processIdentifier) stringValue)
+ writeToFile:"stickupd.pid" atomically:NO)
 
 ;; if we're running as a nush script, skip the nush path
 (if (/(.*)nush$/ findInString:(argv 0))
@@ -39,14 +40,11 @@
 (set argi (+ argi 1))
 
 ;; the option(s) we need to set
-(set site ".")
 (set port 5000)
 
 ;; process the remaining arguments
 (while (< argi (argv count))
        (case (argv argi)
-             ("-s"        (set argi (+ argi 1)) (set site (argv argi)))
-             ("--site"    (set argi (+ argi 1)) (set site (argv argi)))
              ("-p"        (set argi (+ argi 1)) (set port ((argv argi) intValue)))
              ("--port"    (set argi (+ argi 1)) (set port ((argv argi) intValue)))
              ("-l"        (Nunja setLocalOnly:YES))
@@ -62,9 +60,8 @@
     (then (n bindToAddress:"127.0.0.1" port:port))
     (else (n bindToAddress:"0.0.0.0" port:port)))
 
-(if site
-    (n setController:((NunjaController alloc) initWithSite:site)))
-(puts (+ "Nunja is running on port " port))
-(set $site site) ;; make the path to the site directory available to handlers
+(n setController:((NunjaController alloc) initWithSite:".")))
+;; NuParseError: no open sexpr
+(puts (+ "Stickup is running on port " port))
 (n run)
 
