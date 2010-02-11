@@ -60,8 +60,7 @@
     (then (n bindToAddress:"127.0.0.1" port:port))
     (else (n bindToAddress:"0.0.0.0" port:port)))
 
-(n setController:((NunjaController alloc) initWithSite:".")))
-;; NuParseError: no open sexpr
+(n setController:((NunjaController alloc) initWithSite:"."))
 (puts (+ "Stickup is running on port " port))
 (n run)
 
