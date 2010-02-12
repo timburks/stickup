@@ -25,6 +25,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {   
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
  	self.server = [defaults objectForKey:@"server_preference"];
+	if (!self.server) self.server = @"http://neontology.com:5000";
 	[window addSubview:[navigationController view]];
     [window makeKeyAndVisible];
 	[self startLocationTracking];
