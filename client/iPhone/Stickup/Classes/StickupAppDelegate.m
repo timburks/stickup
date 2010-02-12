@@ -9,6 +9,9 @@
 #import "StickupAppDelegate.h"
 #import "RootViewController.h"
 
+@interface StickupAppDelegate (private)
+- (void) startLocationTracking;
+@end
 
 @implementation StickupAppDelegate
 
@@ -18,22 +21,11 @@
 
 #pragma mark Application lifecycle
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {    
-    // Override point for customization after app launch    
-	
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {    	
 	[window addSubview:[navigationController view]];
     [window makeKeyAndVisible];
-	
-	
 	[self startLocationTracking];
-	
-	
 	return YES;
-}
-
-
-- (void)applicationWillTerminate:(UIApplication *)application {
-	// Save data if appropriate
 }
 
 #pragma mark Location Tracking
@@ -59,7 +51,6 @@
 	[locationManager release];
 	[super dealloc];
 }
-
 
 @end
 

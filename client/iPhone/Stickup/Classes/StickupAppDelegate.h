@@ -6,7 +6,7 @@
 //  Copyright Neon Design Technology, Inc. 2010. All rights reserved.
 //
 
-@interface StickupAppDelegate : NSObject <UIApplicationDelegate> {
+@interface StickupAppDelegate : NSObject <UIApplicationDelegate, CLLocationManagerDelegate> {
     
     UIWindow *window;
     UINavigationController *navigationController;

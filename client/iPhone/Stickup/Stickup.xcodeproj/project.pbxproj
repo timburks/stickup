@@ -11,6 +11,8 @@
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
+		2207685A1124F7F500B19319 /* StickupPostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 220768591124F7F500B19319 /* StickupPostViewController.m */; };
+		2207685D1124F82E00B19319 /* StickupListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2207685C1124F82E00B19319 /* StickupListViewController.m */; };
 		228593CC1124CB0C003B9386 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 228593CB1124CB0C003B9386 /* CoreLocation.framework */; };
 		228593CE1124CB17003B9386 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 228593CD1124CB17003B9386 /* MapKit.framework */; };
 		2892E4100DC94CBA00A64D0F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */; };
@@ -25,6 +27,10 @@
 		1D3623250D0F684500981E51 /* StickupAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StickupAppDelegate.m; sourceTree = "<group>"; };
 		1D6058910D05DD3D006BFB54 /* Stickup.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Stickup.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		220768581124F7F500B19319 /* StickupPostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StickupPostViewController.h; sourceTree = "<group>"; };
+		220768591124F7F500B19319 /* StickupPostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StickupPostViewController.m; sourceTree = "<group>"; };
+		2207685B1124F82E00B19319 /* StickupListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StickupListViewController.h; sourceTree = "<group>"; };
+		2207685C1124F82E00B19319 /* StickupListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StickupListViewController.m; sourceTree = "<group>"; };
 		228593CB1124CB0C003B9386 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		228593CD1124CB17003B9386 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -60,6 +66,10 @@
 				28C286E00D94DF7D0034E888 /* RootViewController.m */,
 				1D3623240D0F684500981E51 /* StickupAppDelegate.h */,
 				1D3623250D0F684500981E51 /* StickupAppDelegate.m */,
+				220768581124F7F500B19319 /* StickupPostViewController.h */,
+				220768591124F7F500B19319 /* StickupPostViewController.m */,
+				2207685B1124F82E00B19319 /* StickupListViewController.h */,
+				2207685C1124F82E00B19319 /* StickupListViewController.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -179,6 +189,8 @@
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
 				1D3623260D0F684500981E51 /* StickupAppDelegate.m in Sources */,
 				28C286E10D94DF7D0034E888 /* RootViewController.m in Sources */,
+				2207685A1124F7F500B19319 /* StickupPostViewController.m in Sources */,
+				2207685D1124F82E00B19319 /* StickupListViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

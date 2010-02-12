@@ -7,45 +7,21 @@
 //
 
 #import "RootViewController.h"
-
+#import "StickupListViewController.h"
+#import "StickupPostViewController.h"
 
 @implementation RootViewController
 
+#pragma mark Lifecycle
 
 - (void)viewDidLoad {
     [super viewDidLoad];
 	self.navigationItem.title = @"Stickup";
  }
 
-
-/*
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
+- (void)dealloc {
+    [super dealloc];
 }
-*/
-/*
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-}
-*/
-/*
-- (void)viewWillDisappear:(BOOL)animated {
-	[super viewWillDisappear:animated];
-}
-*/
-/*
-- (void)viewDidDisappear:(BOOL)animated {
-	[super viewDidDisappear:animated];
-}
-*/
-
-/*
- // Override to allow orientations other than the default portrait orientation.
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-	// Return YES for supported orientations.
-	return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
- */
 
 - (void)didReceiveMemoryWarning {
 	// Releases the view if it doesn't have a superview.
@@ -59,15 +35,12 @@
 	// e.g. self.myOutlet = nil;
 }
 
-
-#pragma mark Table view methods
+#pragma mark Table view
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 3;
 }
 
-
-// Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 	return 1;
 }
@@ -131,57 +104,26 @@
 	
 }
 
-
-/*
-// Override to support row selection in the table view.
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-
-    // Navigation logic may go here -- for example, create and push another view controller.
-	// AnotherViewController *anotherViewController = [[AnotherViewController alloc] initWithNibName:@"AnotherView" bundle:nil];
-	// [self.navigationController pushViewController:anotherViewController animated:YES];
-	// [anotherViewController release];
+	int section = [indexPath section];
+	
+	switch (section) {
+		case 1: {
+			StickupListViewController *stickupListViewController = [[[StickupListViewController alloc] init] autorelease];
+			[self.navigationController pushViewController:stickupListViewController animated:YES];
+			break;
+		}
+		case 2: {
+			StickupPostViewController *stickupPostViewController = [[[StickupPostViewController alloc] init] autorelease];
+			[self.navigationController pushViewController:stickupPostViewController animated:YES];
+			break;
+		}
+		default:
+			break;
+	}
 }
-*/
 
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source.
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
-    }   
-}
-*/
-
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
+#pragma mark Map
 
 - (MKAnnotationView *)mapView:(MKMapView *)mv 
             viewForAnnotation:(id <MKAnnotation>)_annotation {
@@ -197,14 +139,6 @@
 	}
 	return view;
 }
-
-
-
-
-- (void)dealloc {
-    [super dealloc];
-}
-
 
 @end
 
