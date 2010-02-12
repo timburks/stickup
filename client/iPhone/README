@@ -1,1 +1,5 @@
 iPhone client goes here...
+
+JSON processing is handled by the json-framework library, also known as SBJSON. json-framework is hosted on Google Code:
+
+	http://code.google.com/p/json-framework
