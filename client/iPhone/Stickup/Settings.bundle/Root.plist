@@ -14,7 +14,7 @@
 			<key>Key</key>
 			<string>server_preference</string>
 			<key>DefaultValue</key>
-			<string>http://neontology.com:5000</string>
+			<string>http://stickup-demo.appspot.com</string>
 			<key>IsSecure</key>
 			<false/>
 			<key>KeyboardType</key>

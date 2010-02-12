@@ -92,6 +92,9 @@ static FormTextField *currentTextField = nil;
     // e.g. self.myOutlet = nil;
 }
 
+- (void) viewWillDisappear:(BOOL)animated {
+	[postAPIController cancel]; 
+}
 
 #pragma mark Table view methods
 
@@ -246,6 +249,8 @@ static FormTextField *currentTextField = nil;
 }
 
 - (void)dealloc {
+	[postAPIController cancel]; // because NSURLConnection retains its delegate, we explicitly cancel any active connection
+	[postAPIController release];
 	[info release];
 	[super dealloc];
 }

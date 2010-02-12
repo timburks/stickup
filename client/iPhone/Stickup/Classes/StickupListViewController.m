@@ -55,6 +55,10 @@
 	[self reload:nil];
 }
 
+- (void) viewWillDisappear:(BOOL)animated {
+	[listAPIController cancel]; 
+}
+   
 - (void) reload:(id) sender {
 	StickupAppDelegate *appDelegate = (StickupAppDelegate *) [[UIApplication sharedApplication] delegate];
 
@@ -77,8 +81,9 @@
 		NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];	
 		[request setHTTPMethod:@"POST"];
 		[request setHTTPBody:[[postDictionary urlQueryString] dataUsingEncoding:NSUTF8StringEncoding]];
-		if (!self.listAPIController)
+		if (!self.listAPIController) {
 			self.listAPIController = [[[APIController alloc] init] autorelease];		
+		}
 		[self.listAPIController connectWithRequest:request target:self selector:@selector(finishList:)];
 	}
 }
@@ -148,6 +153,8 @@
 		if (cell == nil) {
 			cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Message"] autorelease];
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
+			cell.textLabel.numberOfLines = 2;
+			cell.textLabel.adjustsFontSizeToFitWidth = YES;
 		}
 		return cell;
 	} else if (row == 2) {
@@ -167,6 +174,8 @@
 	int row = [indexPath row];
 	if (row == 0) {
 		return 100;
+	} else if (row == 1) {
+		return 60;
 	} else {
 		return 44;
 	}
@@ -205,6 +214,8 @@
 }
 
 - (void)dealloc {
+	[listAPIController cancel]; // because NSURLConnection retains its delegate, we explicitly cancel any active connection
+	[listAPIController release];
 	[stickups release];
     [super dealloc];
 }

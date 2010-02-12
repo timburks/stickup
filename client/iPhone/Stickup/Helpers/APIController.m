@@ -51,23 +51,25 @@
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
 	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
-	isRunning = NO;
 	self.apiConnection = nil;
     self.apiData = nil;
-	[target performSelector:selector withObject:nil afterDelay:0];
+	if (isRunning)
+		[target performSelector:selector withObject:nil];
+	isRunning = NO;
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
 	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
-	isRunning = NO;
-	
-	if (apiStatusCode == 200) {
-		NSString *result = [[[NSString alloc] initWithData:apiData encoding:NSUTF8StringEncoding] autorelease];
-		[target performSelector:selector withObject:result];
-	} else {
-		[target performSelector:selector withObject:nil];
+	if (isRunning) {
+		if (apiStatusCode == 200) {
+			NSString *result = [[[NSString alloc] initWithData:apiData encoding:NSUTF8StringEncoding] autorelease];
+			[target performSelector:selector withObject:result];
+		} else {
+			[target performSelector:selector withObject:nil];
+		}
 	}
+	isRunning = NO;
 	self.apiConnection = nil;
     self.apiData = nil;
 }
