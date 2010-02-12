@@ -54,7 +54,11 @@ static FormTextField *currentTextField = nil;
 }
 
 - (BOOL) resignFirstResponder {
-	[form setObject:self.text forKey:item];
+	if (self.text) {
+		[form setObject:self.text forKey:item];
+	} else {
+		[form removeObjectForKey:item];
+	}
 	return [super resignFirstResponder];
 }
 
