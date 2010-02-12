@@ -10,6 +10,10 @@
 #import "StickupListViewController.h"
 #import "StickupPostViewController.h"
 
+@interface RootViewController (private)
+- (void) recenterMapView:(MKMapView *) mv;
+@end
+
 @implementation RootViewController
 
 #pragma mark Lifecycle
@@ -78,6 +82,7 @@
 				mapView.userInteractionEnabled = NO;
 				mapView.showsUserLocation = YES;
 				mapView.delegate = self;
+				mapView.tag = 100;
 			}
 			return cell;
 		}
@@ -108,6 +113,11 @@
 	int section = [indexPath section];
 	
 	switch (section) {
+		case 0: {
+			MKMapView *mapView = (MKMapView *) [[tableView cellForRowAtIndexPath:indexPath] viewWithTag:100];
+			[self recenterMapView:mapView];
+			break;
+		}
 		case 1: {
 			StickupListViewController *stickupListViewController = [[[StickupListViewController alloc] init] autorelease];
 			[self.navigationController pushViewController:stickupListViewController animated:YES];
@@ -129,15 +139,17 @@
             viewForAnnotation:(id <MKAnnotation>)_annotation {
 	MKAnnotationView *view = nil;
 	if(_annotation == mv.userLocation) {
-		MKCoordinateRegion region;
-		
-		region.center = mv.userLocation.location.coordinate;
-		region.span.latitudeDelta = 0.01;
-		region.span.longitudeDelta = 0.01;
-		
-		[mv setRegion:region animated:YES];
+		[self recenterMapView:mv];
 	}
 	return view;
+}
+
+- (void) recenterMapView:(MKMapView *) mv {
+	MKCoordinateRegion region;
+	region.center = mv.userLocation.location.coordinate;
+	region.span.latitudeDelta = 0.01;
+	region.span.longitudeDelta = 0.01;
+	[mv setRegion:region animated:YES];
 }
 
 @end
