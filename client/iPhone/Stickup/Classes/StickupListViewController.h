@@ -7,7 +7,7 @@
 //
 @class APIController;
 
-@interface StickupListViewController : UITableViewController {
+@interface StickupListViewController : UITableViewController <MKMapViewDelegate> {
 	id stickups;
 	APIController *listAPIController;
 }

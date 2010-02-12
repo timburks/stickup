@@ -9,6 +9,13 @@
 #import "StickupListViewController.h"
 #import "StickupAppDelegate.h"
 #import "MapAnnotation.h"
+#import "APIController.h"
+#import "Helpers.h"
+#import "JSON.h"
+
+@interface StickupListViewController (private)
+- (void) reload:(id)sender;
+@end
 
 @implementation StickupListViewController
 
@@ -62,11 +69,14 @@
 		[alertView show];
 	} else {
 		CLLocationCoordinate2D coordinate = location.coordinate;
-		NSURL *URL = [NSURL URLWithString:[NSString stringWithFormat:@"%@/stickups?latitude=%f&longitude=%f", 
-										   appDelegate.server,
-										   coordinate.latitude,
-										   coordinate.longitude]];
-		NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];		
+		NSURL *URL = [NSURL URLWithString:[NSString stringWithFormat:@"%@/stickups", appDelegate.server]];
+		
+		NSMutableDictionary *postDictionary = [NSMutableDictionary dictionary];
+		[postDictionary setObject:[NSNumber numberWithFloat:coordinate.latitude] forKey:@"latitude"];
+		[postDictionary setObject:[NSNumber numberWithFloat:coordinate.longitude] forKey:@"longitude"];
+		NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];	
+		[request setHTTPMethod:@"POST"];
+		[request setHTTPBody:[[postDictionary urlQueryString] dataUsingEncoding:NSUTF8StringEncoding]];
 		if (!self.listAPIController)
 			self.listAPIController = [[[APIController alloc] init] autorelease];		
 		[self.listAPIController connectWithRequest:request target:self selector:@selector(finishList:)];

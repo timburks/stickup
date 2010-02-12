@@ -12,5 +12,3 @@
 @property(nonatomic, assign) CLLocationCoordinate2D coordinate;
 + (MapAnnotation *) annotationWithDictionary:(NSMutableDictionary *) dictionary;
 @end
-
-@end
