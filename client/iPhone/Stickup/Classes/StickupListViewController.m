@@ -7,10 +7,13 @@
 //
 
 #import "StickupListViewController.h"
+#import "StickupAppDelegate.h"
+#import "MapAnnotation.h"
 
 @implementation StickupListViewController
 
 @synthesize stickups;
+@synthesize listAPIController;
 
 - (id) init {
 	return [self initWithStyle:UITableViewStyleGrouped];
@@ -41,89 +44,158 @@
 
 #pragma mark API call
 
-- (void) reload:(id) sender {
-	
+- (void) viewWillAppear:(BOOL)animated {
+	[self reload:nil];
 }
 
+- (void) reload:(id) sender {
+	StickupAppDelegate *appDelegate = (StickupAppDelegate *) [[UIApplication sharedApplication] delegate];
+
+	CLLocation *location = [[appDelegate locationManager] location];
+	if (!location) {
+		UIAlertView *alertView = [[[UIAlertView alloc]
+								   initWithTitle:@"Location error"
+								   message:@"We can't do this until we know our current location."
+								   delegate:nil
+								   cancelButtonTitle:@"OK"
+								   otherButtonTitles:nil] autorelease];
+		[alertView show];
+	} else {
+		CLLocationCoordinate2D coordinate = location.coordinate;
+		NSURL *URL = [NSURL URLWithString:[NSString stringWithFormat:@"%@/stickups?latitude=%f&longitude=%f", 
+										   appDelegate.server,
+										   coordinate.latitude,
+										   coordinate.longitude]];
+		NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];		
+		if (!self.listAPIController)
+			self.listAPIController = [[[APIController alloc] init] autorelease];		
+		[self.listAPIController connectWithRequest:request target:self selector:@selector(finishList:)];
+	}
+}
+
+- (void) finishList:(NSString *) resultString {
+	if (!resultString) {
+		UIAlertView *alertView = [[[UIAlertView alloc]
+								   initWithTitle:@"Network problem"
+								   message:@"The connection to our server failed."
+								   delegate:nil
+								   cancelButtonTitle:@"OK"
+								   otherButtonTitles:nil] autorelease];
+		[alertView show];
+	} else {
+		id result = [resultString JSONValue];
+		NSLog(@"got result %@", [result description]);
+		
+		id status = [result objectForKey:@"status"];
+		if ([status intValue] == 200) { // success
+			self.stickups = [result objectForKey:@"stickups"];
+			[self.tableView reloadData];
+		} else {
+			UIAlertView *alertView = [[[UIAlertView alloc]
+									   initWithTitle:@"Problem"
+									   message:[result objectForKey:@"message"]
+									   delegate:nil
+									   cancelButtonTitle:@"OK"
+									   otherButtonTitles:nil] autorelease];
+			[alertView show];			
+		}
+	}
+}
 
 #pragma mark Table view methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
+    return stickups ? [stickups count] : 0;
 }
 
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 0;
+    return 3;
 }
 
 
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    static NSString *CellIdentifier = @"Cell";
-    
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-    }
-    
-    // Set up the cell...
-    
-    return cell;
+	int row = [indexPath row];
+	if (row == 0) {
+		UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Map"];
+		if (cell == nil) {
+			cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Map"] autorelease];
+			CGRect mapFrame = CGRectMake(0,0,300,100);
+			MKMapView *mapView = [[[MKMapView alloc] initWithFrame:CGRectInset(mapFrame, 5, 5)] autorelease];
+			[cell.contentView addSubview:mapView];
+			cell.selectionStyle = UITableViewCellSelectionStyleNone;
+			mapView.layer.cornerRadius = 10.0;
+			mapView.userInteractionEnabled = NO;
+			mapView.showsUserLocation = NO;
+			mapView.delegate = self;
+			mapView.tag = 100;
+		}
+		return cell;
+	} else if (row == 1) {
+		UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Message"];
+		if (cell == nil) {
+			cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Message"] autorelease];
+			cell.selectionStyle = UITableViewCellSelectionStyleNone;
+		}
+		return cell;
+	} else if (row == 2) {
+		UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Info"];
+		if (cell == nil) {
+			cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"Info"] autorelease];
+			cell.selectionStyle = UITableViewCellSelectionStyleNone;
+			cell.textLabel.font = [UIFont italicSystemFontOfSize:14];
+		}
+		return cell;
+	} else {
+		return nil;
+	}
 }
 
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Navigation logic may go here. Create and push another view controller.
-    // AnotherViewController *anotherViewController = [[AnotherViewController alloc] initWithNibName:@"AnotherView" bundle:nil];
-    // [self.navigationController pushViewController:anotherViewController];
-    // [anotherViewController release];
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+	int row = [indexPath row];
+	if (row == 0) {
+		return 100;
+	} else {
+		return 44;
+	}
 }
 
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	int section = [indexPath section];	
+	int row = [indexPath row];
+	
+	id stickup = [self.stickups objectAtIndex:section];
+	switch (row) {
+		case 0: {
+			MKMapView *mapView = (MKMapView *) [cell viewWithTag:100];
+			MKCoordinateRegion region;
+			region.center.latitude = [[stickup objectForKey:@"latitude"] floatValue];
+			region.center.longitude = [[stickup objectForKey:@"longitude"] floatValue];
+			region.span.latitudeDelta = 0.01;
+			region.span.longitudeDelta = 0.01;
+			[mapView setRegion:region animated:NO];
+			[mapView removeAnnotations:mapView.annotations];
+			[mapView addAnnotation:[MapAnnotation annotationWithDictionary:stickup]];
+			break;
+		}
+		case 1: 
+			cell.textLabel.text = [stickup objectForKey:@"message"];
+			break;
+		case 2:
+			cell.textLabel.text = [NSString stringWithFormat:@"said %@", [stickup objectForKey:@"user"]];
+			cell.detailTextLabel.text = [NSString stringWithFormat:@"at %@", [stickup objectForKey:@"time"]];
+			break;
+		default:
+			// don't worry about it
+			break;
+	}
 }
-*/
-
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:YES];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
 
 - (void)dealloc {
+	[stickups release];
     [super dealloc];
 }
 

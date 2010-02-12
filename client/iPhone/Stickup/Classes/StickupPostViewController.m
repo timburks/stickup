@@ -7,21 +7,37 @@
 //
 
 #import "StickupPostViewController.h"
+#import "StickupAppDelegate.h"
+#import "Helpers.h"
+#import "APIController.h"
 
 @interface FormTextField : UITextField {
+	id form;
+	id item;
 }
+@property (nonatomic, retain) id form;
+@property (nonatomic, retain) id item;
 @end
 
 @implementation FormTextField
+@synthesize form, item;
 
-- (id) initWithFrame:(CGRect) frame {
+- (id) initWithFrame:(CGRect) frame form:(id) _form item:(id) _item {
 	self = [super initWithFrame:frame];
+	self.form = _form;
+	self.item = _item;
 	self.returnKeyType = UIReturnKeyDone;
 	self.autocapitalizationType = UITextAutocapitalizationTypeNone;
 	self.autocorrectionType = UITextAutocorrectionTypeNo;
 	self.keyboardAppearance = UIKeyboardAppearanceAlert;
 	self.autoresizingMask = UIViewAutoresizingFlexibleWidth;
 	return self;
+}
+
+- (void) dealloc {
+	[form release];
+	[item release];
+	[super dealloc];
 }
 
 static FormTextField *currentTextField = nil;
@@ -37,13 +53,22 @@ static FormTextField *currentTextField = nil;
 	return [super becomeFirstResponder];
 }
 
-@end
+- (BOOL) resignFirstResponder {
+	[form setObject:self.text forKey:item];
+	return [super resignFirstResponder];
+}
 
+@end
 
 @implementation StickupPostViewController
 
+@synthesize info;
+@synthesize postAPIController;
+
 - (id) init {
-	return [self initWithStyle:UITableViewStyleGrouped];
+	self = [super initWithStyle:UITableViewStyleGrouped];
+	self.info = [NSMutableDictionary dictionary];
+	return self;
 }
 
 - (void)viewDidLoad {
@@ -52,7 +77,6 @@ static FormTextField *currentTextField = nil;
 }
 
 - (void)didReceiveMemoryWarning {
-    // Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
     
     // Release any cached data, images, etc that aren't in use.
@@ -92,7 +116,9 @@ static FormTextField *currentTextField = nil;
 						cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:@"Username"] autorelease];
 						cell.selectionStyle = UITableViewCellSelectionStyleNone;
 						cell.textLabel.text = @"Username";
-						FormTextField *textField = [[[FormTextField alloc] initWithFrame:CGRectMake(100,5,200,30)] autorelease];
+						FormTextField *textField = [[[FormTextField alloc] 
+													 initWithFrame:CGRectMake(100,5,200,30) form:self.info item:@"user"] 
+													autorelease];
 						textField.delegate = self;
 						[cell addSubview:textField];
 					}
@@ -104,7 +130,9 @@ static FormTextField *currentTextField = nil;
 						cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:@"Password"] autorelease];
 						cell.selectionStyle = UITableViewCellSelectionStyleNone;
 						cell.textLabel.text = @"Password";
-						FormTextField *textField = [[[FormTextField alloc] initWithFrame:CGRectMake(100,5,200,30)] autorelease];
+						FormTextField *textField = [[[FormTextField alloc] 
+													 initWithFrame:CGRectMake(100,5,200,30) form:self.info item:@"password"]
+													autorelease];
 						textField.delegate = self;
 						textField.secureTextEntry = YES;
 						[cell addSubview:textField];
@@ -117,7 +145,9 @@ static FormTextField *currentTextField = nil;
 						cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:@"Message"] autorelease];
 						cell.selectionStyle = UITableViewCellSelectionStyleNone;
 						cell.textLabel.text = @"Message";
-						FormTextField *textField = [[[FormTextField alloc] initWithFrame:CGRectMake(100,5,200,30)] autorelease];
+						FormTextField *textField = [[[FormTextField alloc] 
+													 initWithFrame:CGRectMake(100,5,200,30) form:self.info item:@"message"] 
+													autorelease];
 						textField.delegate = self;
 						[cell addSubview:textField];
 					}
@@ -144,9 +174,63 @@ static FormTextField *currentTextField = nil;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 	if ([indexPath section] == 1) {
-		// post the stickup
+		StickupAppDelegate *appDelegate = (StickupAppDelegate *) [[UIApplication sharedApplication] delegate];
+		
 		[[FormTextField currentTextField] resignFirstResponder];
-		// [self.navigationController popViewControllerAnimated:YES];
+		// add our location to the info dictionary
+		CLLocation *location = [[appDelegate locationManager] location];
+		if (!location) {
+			UIAlertView *alertView = [[[UIAlertView alloc]
+									   initWithTitle:@"Location error"
+									   message:@"We can't do this until we know our current location."
+									   delegate:nil
+									   cancelButtonTitle:@"OK"
+									   otherButtonTitles:nil] autorelease];
+			[alertView show];
+		} else {
+			CLLocationCoordinate2D coordinate = location.coordinate;
+			[self.info setObject:[NSNumber numberWithFloat:coordinate.latitude] forKey:@"latitude"];
+			[self.info setObject:[NSNumber numberWithFloat:coordinate.longitude] forKey:@"longitude"];
+			// post the stickup			
+			NSURL *URL = [NSURL URLWithString:[NSString stringWithFormat:@"%@/stickup", appDelegate.server]];
+			NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
+			[request setHTTPMethod:@"POST"];
+			[request setHTTPBody:[[self.info urlQueryString] dataUsingEncoding:NSUTF8StringEncoding]];
+			
+			if (!self.postAPIController)
+				self.postAPIController = [[[APIController alloc] init] autorelease];
+			
+			[self.postAPIController connectWithRequest:request target:self selector:@selector(finishPost:)];
+			
+		}
+	}
+}
+
+- (void) finishPost:(NSString *) resultString {
+	if (!resultString) {
+		UIAlertView *alertView = [[[UIAlertView alloc]
+								   initWithTitle:@"Network problem"
+								   message:@"The connection to our server failed."
+								   delegate:nil
+								   cancelButtonTitle:@"OK"
+								   otherButtonTitles:nil] autorelease];
+		[alertView show];
+	} else {
+		id result = [resultString JSONValue];
+		NSLog(@"got result %@", [result description]);
+		
+		id status = [result objectForKey:@"status"];
+		if ([status intValue] == 200) { // success
+			[self.navigationController popViewControllerAnimated:YES];
+		} else {
+			UIAlertView *alertView = [[[UIAlertView alloc]
+									   initWithTitle:@"Problem"
+									   message:[result objectForKey:@"message"]
+									   delegate:nil
+									   cancelButtonTitle:@"OK"
+									   otherButtonTitles:nil] autorelease];
+			[alertView show];			
+		}
 	}
 }
 
@@ -158,6 +242,7 @@ static FormTextField *currentTextField = nil;
 }
 
 - (void)dealloc {
+	[info release];
 	[super dealloc];
 }
 

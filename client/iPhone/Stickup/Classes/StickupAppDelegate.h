@@ -12,11 +12,13 @@
     UINavigationController *navigationController;
 	
 	CLLocationManager *locationManager;
+	NSString *server;
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 @property (nonatomic, retain) IBOutlet UINavigationController *navigationController;
 
 @property (nonatomic, retain) CLLocationManager *locationManager;
+@property (nonatomic, retain) NSString *server;
 @end
 

@@ -15,6 +15,12 @@
 		2207685D1124F82E00B19319 /* StickupListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2207685C1124F82E00B19319 /* StickupListViewController.m */; };
 		228593CC1124CB0C003B9386 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 228593CB1124CB0C003B9386 /* CoreLocation.framework */; };
 		228593CE1124CB17003B9386 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 228593CD1124CB17003B9386 /* MapKit.framework */; };
+		22A6130711251E6F0049C36A /* APIController.m in Sources */ = {isa = PBXBuildFile; fileRef = 22A6130411251E6F0049C36A /* APIController.m */; };
+		22A6130811251E6F0049C36A /* Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 22A6130611251E6F0049C36A /* Helpers.m */; };
+		22A61333112522F00049C36A /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 22A61332112522F00049C36A /* Settings.bundle */; };
+		22A61350112524260049C36A /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 22A6134F112524260049C36A /* Icon.png */; };
+		22A613F8112535660049C36A /* MapAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 22A613F7112535660049C36A /* MapAnnotation.m */; };
+		22A6142F1125390A0049C36A /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 22A6142E1125390A0049C36A /* Default.png */; };
 		22DD504111251C600041D703 /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 22DD503611251C600041D703 /* NSObject+SBJSON.m */; };
 		22DD504211251C600041D703 /* NSString+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 22DD503811251C600041D703 /* NSString+SBJSON.m */; };
 		22DD504311251C600041D703 /* SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 22DD503A11251C600041D703 /* SBJSON.m */; };
@@ -39,6 +45,15 @@
 		2207685C1124F82E00B19319 /* StickupListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StickupListViewController.m; sourceTree = "<group>"; };
 		228593CB1124CB0C003B9386 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		228593CD1124CB17003B9386 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		22A6130311251E6F0049C36A /* APIController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APIController.h; sourceTree = "<group>"; };
+		22A6130411251E6F0049C36A /* APIController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APIController.m; sourceTree = "<group>"; };
+		22A6130511251E6F0049C36A /* Helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Helpers.h; sourceTree = "<group>"; };
+		22A6130611251E6F0049C36A /* Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Helpers.m; sourceTree = "<group>"; };
+		22A61332112522F00049C36A /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		22A6134F112524260049C36A /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		22A613F6112535660049C36A /* MapAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapAnnotation.h; sourceTree = "<group>"; };
+		22A613F7112535660049C36A /* MapAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapAnnotation.m; sourceTree = "<group>"; };
+		22A6142E1125390A0049C36A /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		22DD503411251C600041D703 /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
 		22DD503511251C600041D703 /* NSObject+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJSON.h"; sourceTree = "<group>"; };
 		22DD503611251C600041D703 /* NSObject+SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+SBJSON.m"; sourceTree = "<group>"; };
@@ -101,6 +116,19 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		22A6130111251E360049C36A /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				22A6130311251E6F0049C36A /* APIController.h */,
+				22A6130411251E6F0049C36A /* APIController.m */,
+				22A6130511251E6F0049C36A /* Helpers.h */,
+				22A6130611251E6F0049C36A /* Helpers.m */,
+				22A613F6112535660049C36A /* MapAnnotation.h */,
+				22A613F7112535660049C36A /* MapAnnotation.m */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
 		22DD503311251C430041D703 /* JSON */ = {
 			isa = PBXGroup;
 			children = (
@@ -124,6 +152,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				22A6130111251E360049C36A /* Helpers */,
 				22DD503311251C430041D703 /* JSON */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
@@ -131,6 +160,7 @@
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 				228593CB1124CB0C003B9386 /* CoreLocation.framework */,
+				22A61332112522F00049C36A /* Settings.bundle */,
 			);
 			name = CustomTemplate;
 			sourceTree = "<group>";
@@ -147,6 +177,8 @@
 		29B97317FDCFA39411CA2CEA /* Resources-iPhone */ = {
 			isa = PBXGroup;
 			children = (
+				22A6142E1125390A0049C36A /* Default.png */,
+				22A6134F112524260049C36A /* Icon.png */,
 				28F335F01007B36200424DE2 /* RootViewController.xib */,
 				28AD735F0D9D9599002E5188 /* MainWindow.xib */,
 				8D1107310486CEB800E47090 /* Stickup-Info.plist */,
@@ -216,6 +248,9 @@
 			files = (
 				28AD73600D9D9599002E5188 /* MainWindow.xib in Resources */,
 				28F335F11007B36200424DE2 /* RootViewController.xib in Resources */,
+				22A61333112522F00049C36A /* Settings.bundle in Resources */,
+				22A61350112524260049C36A /* Icon.png in Resources */,
+				22A6142F1125390A0049C36A /* Default.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -237,6 +272,9 @@
 				22DD504411251C600041D703 /* SBJsonBase.m in Sources */,
 				22DD504511251C600041D703 /* SBJsonParser.m in Sources */,
 				22DD504611251C600041D703 /* SBJsonWriter.m in Sources */,
+				22A6130711251E6F0049C36A /* APIController.m in Sources */,
+				22A6130811251E6F0049C36A /* Helpers.m in Sources */,
+				22A613F8112535660049C36A /* MapAnnotation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

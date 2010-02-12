@@ -18,10 +18,13 @@
 @synthesize window;
 @synthesize navigationController;
 @synthesize locationManager;
+@synthesize server;
 
 #pragma mark Application lifecycle
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {    	
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {   
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+ 	self.server = [defaults objectForKey:@"server_preference"];
 	[window addSubview:[navigationController view]];
     [window makeKeyAndVisible];
 	[self startLocationTracking];
