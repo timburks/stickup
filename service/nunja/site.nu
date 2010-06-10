@@ -1,4 +1,4 @@
-(load "Nunja:markup")
+(load "NuMarkup:xhtml")
 (load "NuJSON")
 
 (set STICKUP_FILE "stickups.json")

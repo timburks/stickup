@@ -25,7 +25,10 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {   
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
  	self.server = [defaults objectForKey:@"server_preference"];
-	if (!self.server) self.server = @"http://stickup-demo.appspot.com";
+	//if (!self.server) self.server = @"http://stickup-demo.appspot.com";
+
+	if (!self.server) self.server = @"http://localhost:5000";
+	
 	[window addSubview:[navigationController view]];
     [window makeKeyAndVisible];
 	[self startLocationTracking];
