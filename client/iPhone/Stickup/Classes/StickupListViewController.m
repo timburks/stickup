@@ -191,8 +191,8 @@
 		case 0: {
 			MKMapView *mapView = (MKMapView *) [cell viewWithTag:100];
 			MKCoordinateRegion region;
-			region.center.latitude = [[stickup objectForKey:@"latitude"] floatValue];
-			region.center.longitude = [[stickup objectForKey:@"longitude"] floatValue];
+			region.center.latitude = [[[stickup objectForKey:@"location"] objectForKey:@"latitude"] floatValue];
+		    region.center.longitude = [[[stickup objectForKey:@"location"] objectForKey:@"longitude"] floatValue];
 			region.span.latitudeDelta = 0.01;
 			region.span.longitudeDelta = 0.01;
 			[mapView setRegion:region animated:NO];
