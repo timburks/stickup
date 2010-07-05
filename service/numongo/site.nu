@@ -34,11 +34,13 @@
 
 (post "/stickup"
       (set stickup (REQUEST post))
-      (set user (mongo findOne:(dict name:(stickup user:)) inCollection:"stickup.users"))
-      (unless user
-              (set user (dict name:(stickup user:) password:(stickup password:)))
-              (mongo insertObject:user intoCollection:"stickup.users"))
-      (if (eq (user password:) (stickup password:))
+      (set user nil)
+      (if (stickup user:)
+          (set user (mongo findOne:(dict name:(stickup user:)) inCollection:"stickup.users"))
+          (unless user
+                  (set user (dict name:(stickup user:) password:(stickup password:)))
+                  (mongo insertObject:user intoCollection:"stickup.users")))
+      (if (and user (eq (user password:) (stickup password:)))
           (then
                (stickup removeObjectForKey:"password")
                (stickup time:((NSDate date) description))
@@ -53,20 +55,20 @@
                ((dict status:403 message:"Unable to post stickup.")
                 JSONRepresentation))))
 
-(get "/stickups"
-     (mongo ensureCollection:"stickup.stickups" hasIndex:(dict location:"2d") withOptions:0)
-     (set query (dict))
-     (if (and (set latitude (((REQUEST query) latitude:) floatValue))
-              (set longitude (((REQUEST query) longitude:) floatValue)))
-         (query location:(dict $near:(dict latitude:latitude longitude:longitude))))
-     (unless (set count (((REQUEST query) count:) intValue))
-             (set count 10))
-     ((dict status:200 stickups:(mongo findArray:query
-                                       inCollection:"stickup.stickups"
-                                       returningFields:nil
-                                       numberToReturn:count
-                                       numberToSkip:0))
-      JSONRepresentation))
+(post "/stickups"
+      (mongo ensureCollection:"stickup.stickups" hasIndex:(dict location:"2d") withOptions:0)
+      (set query (dict))
+      (if (and (set latitude (((REQUEST post) latitude:) floatValue))
+               (set longitude (((REQUEST post) longitude:) floatValue)))
+          (query location:(dict $near:(dict latitude:latitude longitude:longitude))))
+      (unless (set count (((REQUEST query) count:) intValue))
+              (set count 10))
+      ((dict status:200 stickups:(mongo findArray:query
+                                        inCollection:"stickup.stickups"
+                                        returningFields:nil
+                                        numberToReturn:count
+                                        numberToSkip:0))
+       JSONRepresentation))
 
 (get "/count"
      (set count (mongo countWithCondition:nil inCollection:"stickups" inDatabase:"stickup"))
