@@ -1,10 +1,18 @@
 (load "NuMarkup:xhtml")
 (load "NuJSON")
 (load "NuMongoDB")
+(load "NuHTTPHelpers")
 
 ;; connect to database
 (set mongo (NuMongoDB new))
 (set connected (mongo connectWithOptions:nil))
+
+(mongo ensureCollection:"stickup.stickups" hasIndex:(dict location:"2d") withOptions:0)
+
+(post "/reset"
+      (mongo dropCollection:"users" inDatabase:"stickup")
+      (mongo dropCollection:"stickups" inDatabase:"stickup")
+      ((dict status:200 message:"Reset database.") JSONRepresentation))
 
 (get "/"
      (&html (&head)
@@ -20,32 +28,51 @@
                            (do (stickup)
                                (&tr (&td (stickup user:))
                                     (&td (stickup time:))
-                                    (&td (stickup latitude:))
-                                    (&td (stickup longitude:))
+                                    (&td ((stickup location:) latitude:))
+                                    (&td ((stickup location:) longitude:))
                                     (&td (stickup message:)))))))))
 
 (post "/stickup"
       (set stickup (REQUEST post))
-      (puts (stickup description))
-      (set query (dict name:(stickup user:) password:(stickup password:)))
-      (if (mongo findOne:query inCollection:"stickup.users")
+      (set user (mongo findOne:(dict name:(stickup user:)) inCollection:"stickup.users"))
+      (unless user
+              (set user (dict name:(stickup user:) password:(stickup password:)))
+              (mongo insertObject:user intoCollection:"stickup.users"))
+      (if (eq (user password:) (stickup password:))
           (then
                (stickup removeObjectForKey:"password")
                (stickup time:((NSDate date) description))
-               (mongo insert:stickup intoCollection:"stickup.stickups")
-               ((dict status:200 message:"Thank you.")
+               (stickup location:(dict latitude:((stickup latitude:) floatValue)
+                                       longitude:((stickup longitude:) floatValue)))
+               (stickup removeObjectForKey:"latitude")
+               (stickup removeObjectForKey:"longitude")
+               (mongo insertObject:stickup intoCollection:"stickup.stickups")
+               ((dict status:200 message:"Thank you." saved:stickup)
                 JSONRepresentation))
           (else
                ((dict status:403 message:"Unable to post stickup.")
                 JSONRepresentation))))
 
 (get "/stickups"
-     (puts ((REQUEST query) description))
-     ((dict status:200 stickups:(mongo findArray:nil inCollection:"stickup.stickups"))
+     (mongo ensureCollection:"stickup.stickups" hasIndex:(dict location:"2d") withOptions:0)
+     (set query (dict))
+     (if (and (set latitude (((REQUEST query) latitude:) floatValue))
+              (set longitude (((REQUEST query) longitude:) floatValue)))
+         (query location:(dict $near:(dict latitude:latitude longitude:longitude))))
+     (unless (set count (((REQUEST query) count:) intValue))
+             (set count 10))
+     ((dict status:200 stickups:(mongo findArray:query
+                                       inCollection:"stickup.stickups"
+                                       returningFields:nil
+                                       numberToReturn:count
+                                       numberToSkip:0))
       JSONRepresentation))
 
+(get "/count"
+     (set count (mongo countWithCondition:nil inCollection:"stickups" inDatabase:"stickup"))
+     ((dict status:200 count:count) JSONRepresentation))
+
 (post "/stickups"
-      (puts ((REQUEST query) description))
       ((dict status:200 stickups:(mongo findArray:nil inCollection:"stickup.stickups"))
        JSONRepresentation))
 
@@ -60,7 +87,7 @@
              ((mongo findOne:(dict name:user) inCollection:"stickup.users")
               (dict status:403 message:"This user already exists."))
              (else
-                  (mongo insert:(dict name:user password:password) intoCollection:"stickup.users")
+                  (mongo insertObject:(dict name:user password:password) intoCollection:"stickup.users")
                   (dict status:200 message:(+ "Successfully registered " user "."))))
        JSONRepresentation))
 

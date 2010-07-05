@@ -1,0 +1,33 @@
+API description
+
+
+1) POST /stickup
+
+user=		the app user name
+password=	password
+latitude=		
+longitude=	
+message= 	
+
+2) GET /stickups
+
+latitude=
+longitude=
+count=           (max number of values to return)
+
+This would return the "count" nearest messages. Let's do that in a JSON array. Each element of the array would be a dictionary (object) with these keys:
+
+latitude
+longitude
+message
+date		(keep a datestamp)
+
+3) POST /signup
+
+user=
+password=
+
+returning something to indicate success or failure. A JSON structure would be best for this... we could have these keys:
+
+status 		(200 for success, etc.)
+message	a message indicating success or failure (if a user name was already taken)
