@@ -64,7 +64,7 @@
       (if (and (set latitude (((REQUEST post) latitude:) floatValue))
                (set longitude (((REQUEST post) longitude:) floatValue)))
           (query location:(dict $near:(dict latitude:latitude longitude:longitude))))
-      (unless (set count (((REQUEST query) count:) intValue))
+      (unless (set count (((REQUEST post) count:) intValue))
               (set count 10))
       ((dict status:200 stickups:(mongo findArray:query
                                         inCollection:"stickup.stickups"
@@ -77,10 +77,6 @@
      (REQUEST setContentType:"application/json")
      (set count (mongo countWithCondition:nil inCollection:"stickups" inDatabase:"stickup"))
      ((dict status:200 count:count) JSONRepresentation))
-
-(post "/stickups"
-      ((dict status:200 stickups:(mongo findArray:nil inCollection:"stickup.stickups"))
-       JSONRepresentation))
 
 (post "/signup"
       (REQUEST setContentType:"application/json")
