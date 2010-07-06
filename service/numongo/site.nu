@@ -10,6 +10,7 @@
 (mongo ensureCollection:"stickup.stickups" hasIndex:(dict location:"2d") withOptions:0)
 
 (post "/reset"
+      (REQUEST setContentType:"application/json")
       (mongo dropCollection:"users" inDatabase:"stickup")
       (mongo dropCollection:"stickups" inDatabase:"stickup")
       ((dict status:200 message:"Reset database.") JSONRepresentation))
@@ -33,6 +34,7 @@
                                     (&td (stickup message:)))))))))
 
 (post "/stickup"
+      (REQUEST setContentType:"application/json")
       (set stickup (REQUEST post))
       (set user nil)
       (if (stickup user:)
@@ -56,6 +58,7 @@
                 JSONRepresentation))))
 
 (post "/stickups"
+      (REQUEST setContentType:"application/json")
       (mongo ensureCollection:"stickup.stickups" hasIndex:(dict location:"2d") withOptions:0)
       (set query (dict))
       (if (and (set latitude (((REQUEST post) latitude:) floatValue))
@@ -71,6 +74,7 @@
        JSONRepresentation))
 
 (get "/count"
+     (REQUEST setContentType:"application/json")
      (set count (mongo countWithCondition:nil inCollection:"stickups" inDatabase:"stickup"))
      ((dict status:200 count:count) JSONRepresentation))
 
@@ -79,6 +83,7 @@
        JSONRepresentation))
 
 (post "/signup"
+      (REQUEST setContentType:"application/json")
       (set info (REQUEST post))
       (set user (info user:))
       (set password (info password:))
@@ -94,6 +99,7 @@
        JSONRepresentation))
 
 (get "/users"
+     (REQUEST setContentType:"application/json")
      (set users (mongo findArray:nil
                        inCollection:"stickup.users"
                        returningFields:(dict password:0)
