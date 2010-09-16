@@ -1,0 +1,381 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 45;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		2270FBAF11DEFA6300D8889A /* Nunja.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2270FBAE11DEFA6300D8889A /* Nunja.framework */; };
+		2280BE9812344D9100280D4C /* Stickup.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FB7796FE84155DC02AAC07 /* Stickup.m */; };
+		2280BE9A12344E0C00280D4C /* favicon.ico in Copy Public Files */ = {isa = PBXBuildFile; fileRef = 2280BE9512344D7600280D4C /* favicon.ico */; };
+		2280BE9F12344E2B00280D4C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08FB779EFE84155DC02AAC07 /* Foundation.framework */; };
+		2280BF1F12344E2D00280D4C /* Nunja.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2270FBAE11DEFA6300D8889A /* Nunja.framework */; };
+		2280BF4412344EB600280D4C /* site.nu in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2280BE9312344D5500280D4C /* site.nu */; };
+		22E14D6C124268DE009AE8B5 /* NuJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22E14D6B124268DE009AE8B5 /* NuJSON.framework */; };
+		22E14D70124268EF009AE8B5 /* NuMongoDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22E14D6F124268EF009AE8B5 /* NuMongoDB.framework */; };
+		22E14DBB12429AEB009AE8B5 /* NuHTTPHelpers.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22E14DBA12429AEB009AE8B5 /* NuHTTPHelpers.framework */; };
+		8DD76F9A0486AA7600D96B5E /* Stickup.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FB7796FE84155DC02AAC07 /* Stickup.m */; settings = {ATTRIBUTES = (); }; };
+		8DD76F9C0486AA7600D96B5E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08FB779EFE84155DC02AAC07 /* Foundation.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		2280BF4212344E3500280D4C /* Copy Public Files */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = public;
+			dstSubfolderSpec = 1;
+			files = (
+				2280BE9A12344E0C00280D4C /* favicon.ico in Copy Public Files */,
+			);
+			name = "Copy Public Files";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2280BF4B12344ECE00280D4C /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 1;
+			files = (
+				2280BF4412344EB600280D4C /* site.nu in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8DD76F9E0486AA7600D96B5E /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 8;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		08FB7796FE84155DC02AAC07 /* Stickup.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; path = Stickup.m; sourceTree = "<group>"; tabWidth = 4; usesTabs = 0; };
+		08FB779EFE84155DC02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		2270FBAE11DEFA6300D8889A /* Nunja.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nunja.framework; path = Library/Frameworks/Nunja.framework; sourceTree = SDKROOT; };
+		2280BE8D123448D800280D4C /* Nunja.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Nunja.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2280BE8F123448D800280D4C /* Stickup-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Stickup-Info.plist"; sourceTree = "<group>"; };
+		2280BE9312344D5500280D4C /* site.nu */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = site.nu; sourceTree = "<group>"; };
+		2280BE9512344D7600280D4C /* favicon.ico */ = {isa = PBXFileReference; lastKnownFileType = image.ico; path = favicon.ico; sourceTree = "<group>"; };
+		22E14D6112426852009AE8B5 /* NuMongoDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NuMongoDB.h; sourceTree = "<group>"; };
+		22E14D6B124268DE009AE8B5 /* NuJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NuJSON.framework; path = Library/Frameworks/NuJSON.framework; sourceTree = SDKROOT; };
+		22E14D6F124268EF009AE8B5 /* NuMongoDB.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NuMongoDB.framework; path = Library/Frameworks/NuMongoDB.framework; sourceTree = SDKROOT; };
+		22E14D9312428128009AE8B5 /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
+		22E14DBA12429AEB009AE8B5 /* NuHTTPHelpers.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NuHTTPHelpers.framework; path = Library/Frameworks/NuHTTPHelpers.framework; sourceTree = SDKROOT; };
+		32A70AAB03705E1F00C91783 /* Stickup_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Stickup_Prefix.pch; sourceTree = "<group>"; };
+		8DD76FA10486AA7600D96B5E /* Stickup */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Stickup; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		2280BE8B123448D800280D4C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2280BF1F12344E2D00280D4C /* Nunja.framework in Frameworks */,
+				2280BE9F12344E2B00280D4C /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8DD76F9B0486AA7600D96B5E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8DD76F9C0486AA7600D96B5E /* Foundation.framework in Frameworks */,
+				2270FBAF11DEFA6300D8889A /* Nunja.framework in Frameworks */,
+				22E14D6C124268DE009AE8B5 /* NuJSON.framework in Frameworks */,
+				22E14D70124268EF009AE8B5 /* NuMongoDB.framework in Frameworks */,
+				22E14DBB12429AEB009AE8B5 /* NuHTTPHelpers.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		08FB7794FE84155DC02AAC07 /* Stickup */ = {
+			isa = PBXGroup;
+			children = (
+				2280BE9412344D7600280D4C /* public */,
+				2280BE9312344D5500280D4C /* site.nu */,
+				08FB7795FE84155DC02AAC07 /* Source */,
+				C6859EA2029092E104C91782 /* Documentation */,
+				08FB779DFE84155DC02AAC07 /* External Frameworks and Libraries */,
+				1AB674ADFE9D54B511CA2CBB /* Products */,
+				2280BE8F123448D800280D4C /* Stickup-Info.plist */,
+			);
+			name = Stickup;
+			sourceTree = "<group>";
+		};
+		08FB7795FE84155DC02AAC07 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				22E14D9312428128009AE8B5 /* JSON.h */,
+				22E14D6112426852009AE8B5 /* NuMongoDB.h */,
+				32A70AAB03705E1F00C91783 /* Stickup_Prefix.pch */,
+				08FB7796FE84155DC02AAC07 /* Stickup.m */,
+			);
+			name = Source;
+			sourceTree = "<group>";
+		};
+		08FB779DFE84155DC02AAC07 /* External Frameworks and Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				08FB779EFE84155DC02AAC07 /* Foundation.framework */,
+				2270FBAE11DEFA6300D8889A /* Nunja.framework */,
+				22E14D6B124268DE009AE8B5 /* NuJSON.framework */,
+				22E14D6F124268EF009AE8B5 /* NuMongoDB.framework */,
+				22E14DBA12429AEB009AE8B5 /* NuHTTPHelpers.framework */,
+			);
+			name = "External Frameworks and Libraries";
+			sourceTree = "<group>";
+		};
+		1AB674ADFE9D54B511CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8DD76FA10486AA7600D96B5E /* Stickup */,
+				2280BE8D123448D800280D4C /* Nunja.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		2280BE9412344D7600280D4C /* public */ = {
+			isa = PBXGroup;
+			children = (
+				2280BE9512344D7600280D4C /* favicon.ico */,
+			);
+			path = public;
+			sourceTree = "<group>";
+		};
+		C6859EA2029092E104C91782 /* Documentation */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Documentation;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		2280BE8C123448D800280D4C /* Nunja */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2280BE92123448D800280D4C /* Build configuration list for PBXNativeTarget "Nunja" */;
+			buildPhases = (
+				2280BE8A123448D800280D4C /* Sources */,
+				2280BE8B123448D800280D4C /* Frameworks */,
+				2280BF4212344E3500280D4C /* Copy Public Files */,
+				2280BF4B12344ECE00280D4C /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Nunja;
+			productName = Nunja;
+			productReference = 2280BE8D123448D800280D4C /* Nunja.app */;
+			productType = "com.apple.product-type.application";
+		};
+		8DD76F960486AA7600D96B5E /* Stickup */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1DEB927408733DD40010E9CD /* Build configuration list for PBXNativeTarget "Stickup" */;
+			buildPhases = (
+				8DD76F990486AA7600D96B5E /* Sources */,
+				8DD76F9B0486AA7600D96B5E /* Frameworks */,
+				8DD76F9E0486AA7600D96B5E /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Stickup;
+			productInstallPath = "$(HOME)/bin";
+			productName = Stickup;
+			productReference = 8DD76FA10486AA7600D96B5E /* Stickup */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		08FB7793FE84155DC02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 1DEB927808733DD40010E9CD /* Build configuration list for PBXProject "Stickup" */;
+			compatibilityVersion = "Xcode 3.1";
+			developmentRegion = English;
+			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
+			mainGroup = 08FB7794FE84155DC02AAC07 /* Stickup */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8DD76F960486AA7600D96B5E /* Stickup */,
+				2280BE8C123448D800280D4C /* Nunja */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		2280BE8A123448D800280D4C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2280BE9812344D9100280D4C /* Stickup.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8DD76F990486AA7600D96B5E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8DD76F9A0486AA7600D96B5E /* Stickup.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		1DEB927508733DD40010E9CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Stickup_Prefix.pch;
+				INSTALL_PATH = /usr/local/bin;
+				PRODUCT_NAME = Stickup;
+			};
+			name = Debug;
+		};
+		1DEB927608733DD40010E9CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Stickup_Prefix.pch;
+				INSTALL_PATH = /usr/local/bin;
+				PRODUCT_NAME = Stickup;
+			};
+			name = Release;
+		};
+		1DEB927908733DD40010E9CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = DARWIN;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PREBINDING = NO;
+				SDKROOT = macosx10.6;
+			};
+			name = Debug;
+		};
+		1DEB927A08733DD40010E9CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PREPROCESSOR_DEFINITIONS = DARWIN;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PREBINDING = NO;
+				SDKROOT = macosx10.6;
+			};
+			name = Release;
+		};
+		2280BE90123448D800280D4C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INFOPLIST_FILE = "Stickup-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = Nunja;
+			};
+			name = Debug;
+		};
+		2280BE91123448D800280D4C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INFOPLIST_FILE = "Stickup-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = Nunja;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1DEB927408733DD40010E9CD /* Build configuration list for PBXNativeTarget "Stickup" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB927508733DD40010E9CD /* Debug */,
+				1DEB927608733DD40010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1DEB927808733DD40010E9CD /* Build configuration list for PBXProject "Stickup" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB927908733DD40010E9CD /* Debug */,
+				1DEB927A08733DD40010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2280BE92123448D800280D4C /* Build configuration list for PBXNativeTarget "Nunja" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2280BE90123448D800280D4C /* Debug */,
+				2280BE91123448D800280D4C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 08FB7793FE84155DC02AAC07 /* Project object */;
+}

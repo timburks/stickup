@@ -6,6 +6,7 @@
 ;; connect to database
 (set mongo (NuMongoDB new))
 (set connected (mongo connectWithOptions:nil))
+(mongo authenticateUser:"stickup" withPassword:"stickup" forDatabase:"stickup")
 
 (mongo ensureCollection:"stickup.stickups" hasIndex:(dict location:"2d") withOptions:0)
 

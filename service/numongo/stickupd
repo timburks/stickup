@@ -1,9 +1,9 @@
 #!/usr/local/bin/nush
 #
-# @file stickupd
-# The stickup daemon.
+# @file nunjad
+# The Nunja daemon.
 #
-# @copyright  Copyright (c) 2010 Neon Design Technology, Inc.
+# @copyright  Copyright (c) 2008 Neon Design Technology, Inc.
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
 #   you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@
 #   limitations under the License.
 
 (load "Nunja")
+(load "NuHTTPHelpers")
 
 (set exit (NuBridgedFunction functionWithName:"exit" signature:"vi"))
 
@@ -28,8 +29,7 @@
 (set argv ((NSProcessInfo processInfo) arguments))
 (set argi 0)
 
-((((NSProcessInfo processInfo) processIdentifier) stringValue)
- writeToFile:"stickupd.pid" atomically:NO)
+((((NSProcessInfo processInfo) processIdentifier) stringValue) writeToFile:"nunjad.pid" atomically:NO)
 
 ;; if we're running as a nush script, skip the nush path
 (if (/(.*)nush$/ findInString:(argv 0))
@@ -39,12 +39,15 @@
 (set argi (+ argi 1))
 
 ;; the option(s) we need to set
+(set site ".")
 (set port 5000)
 (set localOnly NO)
 
 ;; process the remaining arguments
 (while (< argi (argv count))
        (case (argv argi)
+             ("-s"        (set argi (+ argi 1)) (set site (argv argi)))
+             ("--site"    (set argi (+ argi 1)) (set site (argv argi)))
              ("-p"        (set argi (+ argi 1)) (set port ((argv argi) intValue)))
              ("--port"    (set argi (+ argi 1)) (set port ((argv argi) intValue)))
              ("-l"        (set localOnly YES))
@@ -56,12 +59,16 @@
        (set argi (+ argi 1)))
 
 (set n (Nunja nunja))
+
 (if localOnly
     (then (n bindToAddress:"127.0.0.1" port:port))
     (else (n bindToAddress:"0.0.0.0" port:port)))
 
-(n setDelegate:((NunjaDelegate alloc) initWithSite:"."))
-(puts (+ "Stickup is running on port " port))
-((n delegate) dump)
+(if site
+    ((n delegate) configureSite:site))
+
+(puts (+ "Nunja is running on port " port))
+(set $site site) ;; make the path to the site directory available to handlers
+(if (Nunja verbose) ((n delegate) dump))
 (n run)
 
