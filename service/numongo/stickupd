@@ -1,74 +1,120 @@
 #!/usr/local/bin/nush
-#
-# @file nunjad
-# The Nunja daemon.
-#
-# @copyright  Copyright (c) 2008 Neon Design Technology, Inc.
-#
-#   Licensed under the Apache License, Version 2.0 (the "License");
-#   you may not use this file except in compliance with the License.
-#   You may obtain a copy of the License at
-#
-#       http://www.apache.org/licenses/LICENSE-2.0
-#
-#   Unless required by applicable law or agreed to in writing, software
-#   distributed under the License is distributed on an "AS IS" BASIS,
-#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-#   See the License for the specific language governing permissions and
-#   limitations under the License.
-
-(load "Nunja")
+(load "Kurt")
 (load "NuHTTPHelpers")
+(load "NuMarkup:xhtml")
+(load "NuMongoDB")
+(load "NuJSON")
 
-(set exit (NuBridgedFunction functionWithName:"exit" signature:"vi"))
+;; connect to database
+(set mongo (NuMongoDB new))
+(set connected (mongo connectWithOptions))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;
-;; main program
-;;;;;;;;;;;;;;;;;;;;;;;;;
+;; default database configuration
+(mongo authenticateUser:"stickup"
+       withPassword:"stickup"
+       forDatabase:"stickup")
 
-(set argv ((NSProcessInfo processInfo) arguments))
-(set argi 0)
+;; this builds the geo index
+(mongo ensureCollection:"stickup.stickups"
+       hasIndex:(dict location:"2d")
+       withOptions:0)
 
-((((NSProcessInfo processInfo) processIdentifier) stringValue) writeToFile:"nunjad.pid" atomically:NO)
+;; define the actions
 
-;; if we're running as a nush script, skip the nush path
-(if (/(.*)nush$/ findInString:(argv 0))
-    (set argi (+ argi 1)))
+(post "/reset"
+      (REQUEST setContentType:"application/json")
+      (mongo dropCollection:"users" inDatabase:"stickup")
+      (mongo dropCollection:"stickups" inDatabase:"stickup")
+      ((dict status:200 message:"Reset database.") JSONRepresentation))
 
-;; skip the program name
-(set argi (+ argi 1))
+(get "/"
+     (&html (&head (&title "Stickup"))
+            (&body (&h1 "Hello")
+                   (&p "This is stickup.")
+                   (&table
+                          (&tr (&th "user")
+                               (&th "time")
+                               (&th "latitude")
+                               (&th "longitude")
+                               (&th "message"))
+                          ((mongo findArray:nil inCollection:"stickup.stickups") map:
+                           (do (stickup)
+                               (&tr (&td (stickup user:))
+                                    (&td (stickup time:))
+                                    (&td ((stickup location:) latitude:))
+                                    (&td ((stickup location:) longitude:))
+                                    (&td (stickup message:)))))))))
 
-;; the option(s) we need to set
-(set site ".")
-(set port 5000)
-(set localOnly NO)
+(post "/stickup"
+      (REQUEST setContentType:"application/json")
+      (set stickup (REQUEST post))
+      (set user nil)
+      (if (stickup user:)
+          (set user (mongo findOne:(dict name:(stickup user:)) inCollection:"stickup.users"))
+          (unless user
+                  (set user (dict name:(stickup user:) password:(stickup password:)))
+                  (mongo insertObject:user intoCollection:"stickup.users")))
+      (if (and user (eq (user password:) (stickup password:)))
+          (then
+               (stickup removeObjectForKey:"password")
+               (stickup time:((NSDate date) description))
+               (stickup location:(dict latitude:((stickup latitude:) floatValue)
+                                       longitude:((stickup longitude:) floatValue)))
+               (stickup removeObjectForKey:"latitude")
+               (stickup removeObjectForKey:"longitude")
+               (mongo insertObject:stickup intoCollection:"stickup.stickups")
+               ((dict status:200 message:"Thank you." saved:stickup)
+                JSONRepresentation))
+          (else
+               ((dict status:403 message:"Unable to post stickup.")
+                JSONRepresentation))))
 
-;; process the remaining arguments
-(while (< argi (argv count))
-       (case (argv argi)
-             ("-s"        (set argi (+ argi 1)) (set site (argv argi)))
-             ("--site"    (set argi (+ argi 1)) (set site (argv argi)))
-             ("-p"        (set argi (+ argi 1)) (set port ((argv argi) intValue)))
-             ("--port"    (set argi (+ argi 1)) (set port ((argv argi) intValue)))
-             ("-l"        (set localOnly YES))
-             ("--local"   (set localOnly YES))
-             ("-v"        (Nunja setVerbose:YES))
-             ("--verbose" (Nunja setVerbose:YES))
-             (else (puts (+ "unknown option: " (argv argi)))
-                   (exit -1)))
-       (set argi (+ argi 1)))
+(post "/stickups"
+      (REQUEST setContentType:"application/json")
+      (mongo ensureCollection:"stickup.stickups" hasIndex:(dict location:"2d") withOptions:0)
+      (set query (dict))
+      (if (and (set latitude (((REQUEST post) latitude:) floatValue))
+               (set longitude (((REQUEST post) longitude:) floatValue)))
+          (query location:(dict $near:(dict latitude:latitude longitude:longitude))))
+      (unless (set count (((REQUEST post) count:) intValue))
+              (set count 10))
+      ((dict status:200 stickups:(mongo findArray:query
+                                        inCollection:"stickup.stickups"
+                                        returningFields:nil
+                                        numberToReturn:count
+                                        numberToSkip:0))
+       JSONRepresentation))
 
-(set n (Nunja nunja))
+(get "/count"
+     (REQUEST setContentType:"application/json")
+     (set count (mongo countWithCondition:nil inCollection:"stickups" inDatabase:"stickup"))
+     ((dict status:200 count:count) JSONRepresentation))
 
-(if localOnly
-    (then (n bindToAddress:"127.0.0.1" port:port))
-    (else (n bindToAddress:"0.0.0.0" port:port)))
+(post "/signup"
+      (REQUEST setContentType:"application/json")
+      (set info (REQUEST post))
+      (set user (info user:))
+      (set password (info password:))
+      ((cond ((eq user nil)
+              (dict status:403 message:"Please specify a user"))
+             ((eq password nil)
+              (dict status:403 message:"Please specify a password"))
+             ((mongo findOne:(dict name:user) inCollection:"stickup.users")
+              (dict status:403 message:"This user already exists."))
+             (else
+                  (mongo insertObject:(dict name:user password:password) intoCollection:"stickup.users")
+                  (dict status:200 message:(+ "Successfully registered " user "."))))
+       JSONRepresentation))
 
-(if site
-    ((n delegate) configureSite:site))
+(get "/users"
+     (REQUEST setContentType:"application/json")
+     (set users (mongo findArray:nil
+                       inCollection:"stickup.users"
+                       returningFields:(dict password:0) ;; strip the password field
+                       numberToReturn:1000
+                       numberToSkip:0))
+     ((dict status:200 users:users)
+      JSONRepresentation))
 
-(puts (+ "Nunja is running on port " port))
-(set $site site) ;; make the path to the site directory available to handlers
-(if (Nunja verbose) ((n delegate) dump))
-(n run)
-
+;; GO!
+(Kurt run)

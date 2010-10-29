@@ -9,13 +9,13 @@
 /* Begin PBXBuildFile section */
 		2270FBAF11DEFA6300D8889A /* Nunja.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2270FBAE11DEFA6300D8889A /* Nunja.framework */; };
 		2280BE9812344D9100280D4C /* Stickup.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FB7796FE84155DC02AAC07 /* Stickup.m */; };
-		2280BE9A12344E0C00280D4C /* favicon.ico in Copy Public Files */ = {isa = PBXBuildFile; fileRef = 2280BE9512344D7600280D4C /* favicon.ico */; };
 		2280BE9F12344E2B00280D4C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08FB779EFE84155DC02AAC07 /* Foundation.framework */; };
 		2280BF1F12344E2D00280D4C /* Nunja.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2270FBAE11DEFA6300D8889A /* Nunja.framework */; };
 		2280BF4412344EB600280D4C /* site.nu in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2280BE9312344D5500280D4C /* site.nu */; };
 		22E14D6C124268DE009AE8B5 /* NuJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22E14D6B124268DE009AE8B5 /* NuJSON.framework */; };
 		22E14D70124268EF009AE8B5 /* NuMongoDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22E14D6F124268EF009AE8B5 /* NuMongoDB.framework */; };
 		22E14DBB12429AEB009AE8B5 /* NuHTTPHelpers.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22E14DBA12429AEB009AE8B5 /* NuHTTPHelpers.framework */; };
+		22F6280D12433325007AB6D5 /* Nu.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22F6280C12433325007AB6D5 /* Nu.framework */; };
 		8DD76F9A0486AA7600D96B5E /* Stickup.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FB7796FE84155DC02AAC07 /* Stickup.m */; settings = {ATTRIBUTES = (); }; };
 		8DD76F9C0486AA7600D96B5E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08FB779EFE84155DC02AAC07 /* Foundation.framework */; };
 /* End PBXBuildFile section */
@@ -27,7 +27,6 @@
 			dstPath = public;
 			dstSubfolderSpec = 1;
 			files = (
-				2280BE9A12344E0C00280D4C /* favicon.ico in Copy Public Files */,
 			);
 			name = "Copy Public Files";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -60,12 +59,12 @@
 		2280BE8D123448D800280D4C /* Nunja.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Nunja.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2280BE8F123448D800280D4C /* Stickup-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Stickup-Info.plist"; sourceTree = "<group>"; };
 		2280BE9312344D5500280D4C /* site.nu */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = site.nu; sourceTree = "<group>"; };
-		2280BE9512344D7600280D4C /* favicon.ico */ = {isa = PBXFileReference; lastKnownFileType = image.ico; path = favicon.ico; sourceTree = "<group>"; };
 		22E14D6112426852009AE8B5 /* NuMongoDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NuMongoDB.h; sourceTree = "<group>"; };
 		22E14D6B124268DE009AE8B5 /* NuJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NuJSON.framework; path = Library/Frameworks/NuJSON.framework; sourceTree = SDKROOT; };
 		22E14D6F124268EF009AE8B5 /* NuMongoDB.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NuMongoDB.framework; path = Library/Frameworks/NuMongoDB.framework; sourceTree = SDKROOT; };
 		22E14D9312428128009AE8B5 /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
 		22E14DBA12429AEB009AE8B5 /* NuHTTPHelpers.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NuHTTPHelpers.framework; path = Library/Frameworks/NuHTTPHelpers.framework; sourceTree = SDKROOT; };
+		22F6280C12433325007AB6D5 /* Nu.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nu.framework; path = Library/Frameworks/Nu.framework; sourceTree = SDKROOT; };
 		32A70AAB03705E1F00C91783 /* Stickup_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Stickup_Prefix.pch; sourceTree = "<group>"; };
 		8DD76FA10486AA7600D96B5E /* Stickup */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Stickup; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -89,6 +88,7 @@
 				22E14D6C124268DE009AE8B5 /* NuJSON.framework in Frameworks */,
 				22E14D70124268EF009AE8B5 /* NuMongoDB.framework in Frameworks */,
 				22E14DBB12429AEB009AE8B5 /* NuHTTPHelpers.framework in Frameworks */,
+				22F6280D12433325007AB6D5 /* Nu.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -98,7 +98,6 @@
 		08FB7794FE84155DC02AAC07 /* Stickup */ = {
 			isa = PBXGroup;
 			children = (
-				2280BE9412344D7600280D4C /* public */,
 				2280BE9312344D5500280D4C /* site.nu */,
 				08FB7795FE84155DC02AAC07 /* Source */,
 				C6859EA2029092E104C91782 /* Documentation */,
@@ -128,6 +127,7 @@
 				22E14D6B124268DE009AE8B5 /* NuJSON.framework */,
 				22E14D6F124268EF009AE8B5 /* NuMongoDB.framework */,
 				22E14DBA12429AEB009AE8B5 /* NuHTTPHelpers.framework */,
+				22F6280C12433325007AB6D5 /* Nu.framework */,
 			);
 			name = "External Frameworks and Libraries";
 			sourceTree = "<group>";
@@ -139,14 +139,6 @@
 				2280BE8D123448D800280D4C /* Nunja.app */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		2280BE9412344D7600280D4C /* public */ = {
-			isa = PBXGroup;
-			children = (
-				2280BE9512344D7600280D4C /* favicon.ico */,
-			);
-			path = public;
 			sourceTree = "<group>";
 		};
 		C6859EA2029092E104C91782 /* Documentation */ = {

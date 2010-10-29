@@ -1,6 +1,16 @@
 #import <Nunja/Nunja.h>
 #import "NuMongoDB.h"
 #import "JSON.h"
+#import <Nu/Nu.h>
+
+NuMongoDB *mymongo() {
+    NuMongoDB *mongo = [NuMongoDB new];
+    [mongo connectWithOptions:nil];								
+    [mongo authenticateUser:@"stickup" 
+               withPassword:@"stickup" 
+                forDatabase:@"stickup"];  
+    return mongo;
+}
 
 @interface ServerDelegate : NunjaDefaultDelegate 
 {
@@ -12,13 +22,16 @@
 - (void) applicationDidFinishLaunching {
 	
     [self addHandlerWithHTTPMethod:@"GET"
-                            path:@"/"
+                              path:@"/"
                              block:^(NunjaRequest *REQUEST) {
-                                 NSString *result = @"This is stickup.";
-								 [REQUEST setContentType:@"text/plain"];
-								 return result;                                 
+                                 id<NuParsing> parser = [Nu parser];  
+                                 [parser setValue:REQUEST forKey:@"REQUEST"];
+                                 return [parser parseEval:
+                                           [NSString stringWithContentsOfFile:@"index.nu" 
+                                                                     encoding:NSUTF8StringEncoding 
+                                                                        error:nil]];                                 
                              }];
-     
+    
 	[self addHandlerWithHTTPMethod:@"GET"
 							  path:@"/pwd"
 							 block:^(NunjaRequest *REQUEST) {
