@@ -7,7 +7,7 @@
 
 ;; connect to database
 (set mongo (NuMongoDB new))
-(set connected (mongo connectWithOptions))
+(set connected (mongo connect))
 
 ;; default database configuration
 (mongo authenticateUser:"stickup"
