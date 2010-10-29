@@ -27,7 +27,7 @@
  	self.server = [defaults objectForKey:@"server_preference"];
 	//if (!self.server) self.server = @"http://stickup-demo.appspot.com";
 
-	if (!self.server) self.server = @"http://stickup.radtastical.com";
+	if (!self.server) self.server = @"http://localhost:3000";
 	
 	[window addSubview:[navigationController view]];
     [window makeKeyAndVisible];

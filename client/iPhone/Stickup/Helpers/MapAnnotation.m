@@ -18,8 +18,8 @@
 - (id)initWithDictionary:(NSMutableDictionary *)d {
 	self = [super init];
 	if(nil != self) {
-		CLLocation *location = [[[CLLocation alloc] initWithLatitude:[[[d objectForKey:@"location"] objectForKey:@"latitude"] floatValue]
-														   longitude:[[[d objectForKey:@"location"] objectForKey:@"longitude"] floatValue]] autorelease];
+		CLLocation *location = [[[CLLocation alloc] initWithLatitude:[[d objectForKey:@"latitude"] floatValue]
+														   longitude:[[d objectForKey:@"longitude"] floatValue]] autorelease];
 		self.coordinate = location.coordinate;
 	}
 	return self;

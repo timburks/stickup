@@ -1,4 +1,4 @@
-#import <Nunja/Nunja.h>
+#import <Kurt/Kurt.h>
 #import "NuMongoDB.h"
 #import "JSON.h"
 #import <Nu/Nu.h>
@@ -12,7 +12,7 @@ NuMongoDB *mymongo() {
     return mongo;
 }
 
-@interface ServerDelegate : NunjaDefaultDelegate 
+@interface ServerDelegate : KurtDefaultDelegate 
 {
 }
 @end
@@ -23,7 +23,7 @@ NuMongoDB *mymongo() {
 	
     [self addHandlerWithHTTPMethod:@"GET"
                               path:@"/"
-                             block:^(NunjaRequest *REQUEST) {
+                             block:^(KurtRequest *REQUEST) {
                                  id<NuParsing> parser = [Nu parser];  
                                  [parser setValue:REQUEST forKey:@"REQUEST"];
                                  return [parser parseEval:
@@ -34,7 +34,7 @@ NuMongoDB *mymongo() {
     
 	[self addHandlerWithHTTPMethod:@"GET"
 							  path:@"/pwd"
-							 block:^(NunjaRequest *REQUEST) {
+							 block:^(KurtRequest *REQUEST) {
 								 NSMutableString *result = [NSMutableString string];
 								 [result appendString:[[NSFileManager defaultManager] currentDirectoryPath]];
 								 [REQUEST setContentType:@"text/plain"];
@@ -43,7 +43,7 @@ NuMongoDB *mymongo() {
 	
 	[self addHandlerWithHTTPMethod:@"POST"
 							  path:@"/reset"
-							 block:^(NunjaRequest *REQUEST) {
+							 block:^(KurtRequest *REQUEST) {
 								 NuMongoDB *mongo = [NuMongoDB new];
 								 [mongo connectWithOptions:nil];								
 								 [mongo authenticateUser:@"stickup" 
@@ -61,7 +61,7 @@ NuMongoDB *mymongo() {
 	
 	[self addHandlerWithHTTPMethod:@"POST"
 							  path:@"/stickup"
-							 block:^(NunjaRequest *REQUEST) {
+							 block:^(KurtRequest *REQUEST) {
 								 NuMongoDB *mongo = [NuMongoDB new];
 								 [mongo connectWithOptions:nil];								
 								 [mongo authenticateUser:@"stickup" 
@@ -114,7 +114,7 @@ NuMongoDB *mymongo() {
 	
 	[self addHandlerWithHTTPMethod:@"GET"
 							  path:@"/count"
-							 block:^(NunjaRequest *REQUEST) {
+							 block:^(KurtRequest *REQUEST) {
 								 NuMongoDB *mongo = [NuMongoDB new];
 								 [mongo connectWithOptions:nil];								
 								 [mongo authenticateUser:@"stickup" 
@@ -131,7 +131,7 @@ NuMongoDB *mymongo() {
 	
 	[self addHandlerWithHTTPMethod:@"GET"
 							  path:@"/stickups"
-							 block:^(NunjaRequest *REQUEST) {
+							 block:^(KurtRequest *REQUEST) {
 								 NuMongoDB *mongo = [NuMongoDB new];
 								 [mongo connectWithOptions:nil];								
 								 [mongo authenticateUser:@"stickup" 
@@ -174,5 +174,5 @@ NuMongoDB *mymongo() {
 
 int main (int argc, const char * argv[])
 {
-	return NunjaMain(argc, argv, @"ServerDelegate");
+	return KurtMain(argc, argv, @"ServerDelegate");
 }

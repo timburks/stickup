@@ -40,7 +40,7 @@
                           ((mongo findArray:nil inCollection:"stickup.stickups") map:
                            (do (stickup)
                                (&tr (&td (stickup user:))
-                                    (&td (stickup time:))
+                                    (&td ((stickup time:) description))
                                     (&td ((stickup location:) latitude:))
                                     (&td ((stickup location:) longitude:))
                                     (&td (stickup message:)))))))))
@@ -57,7 +57,7 @@
       (if (and user (eq (user password:) (stickup password:)))
           (then
                (stickup removeObjectForKey:"password")
-               (stickup time:((NSDate date) description))
+               (stickup time:(NSDate date))
                (stickup location:(dict latitude:((stickup latitude:) floatValue)
                                        longitude:((stickup longitude:) floatValue)))
                (stickup removeObjectForKey:"latitude")
@@ -78,11 +78,18 @@
           (query location:(dict $near:(dict latitude:latitude longitude:longitude))))
       (unless (set count (((REQUEST post) count:) intValue))
               (set count 10))
-      ((dict status:200 stickups:(mongo findArray:query
-                                        inCollection:"stickup.stickups"
-                                        returningFields:nil
-                                        numberToReturn:count
-                                        numberToSkip:0))
+      (set stickups ((mongo findArray:query
+                            inCollection:"stickup.stickups"
+                            returningFields:nil
+                            numberToReturn:count
+                            numberToSkip:0) map:
+                     (do (stickup)
+                         (stickup latitude:((stickup location:) latitude:)
+                                  longitude:((stickup location:) longitude:))
+                         (stickup removeObjectForKey:"location")
+                         stickup)))
+      (puts (+ "returning " (stickups description)))
+      ((dict status:200 stickups:stickups)
        JSONRepresentation))
 
 (get "/count"
