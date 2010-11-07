@@ -202,6 +202,7 @@ static FormTextField *currentTextField = nil;
 			NSURL *URL = [NSURL URLWithString:[NSString stringWithFormat:@"%@/stickup", appDelegate.server]];
 			NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
 			[request setHTTPMethod:@"POST"];
+            NSLog(@"posting %@", [self.info urlQueryString]);
 			[request setHTTPBody:[[self.info urlQueryString] dataUsingEncoding:NSUTF8StringEncoding]];
 			
 			if (!self.postAPIController)

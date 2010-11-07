@@ -9,7 +9,7 @@ latitude=
 longitude=	
 message= 	
 
-2) GET /stickups
+2) POST /stickups
 
 latitude=
 longitude=
