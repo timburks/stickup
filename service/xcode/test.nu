@@ -1,6 +1,5 @@
 (load "NuJSON")
-(set SERVER "http://localhost:5000")
-(set SERVER "http://stickup.radtastical.com")
+(set SERVER "http://localhost:3000")
 
 ;; reset database
 (set command (+ "curl -s " SERVER "/reset -d a=b"))

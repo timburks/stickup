@@ -1,0 +1,10 @@
+
+(almost-) pure Objective-C web server.
+
+"Almost" because one action "/" is written with Nu.
+To support it, please copy "index.nu" to the directory
+where you run the Stickup binary. Typically this will 
+be build/Debug.
+
+
+
